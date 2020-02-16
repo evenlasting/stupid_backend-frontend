@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+    <title>kawhi</title>
+    <!-- 引入 echarts.js -->
+    <script src="echarts.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
+<body style="top:10% ;width: 100% ; height:100%">
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 100% ; height:100%"></div>
+    <script type="text/javascript">
+        let rate={
+            'Huskies_D1':	0.431322859,
+            'Huskies_D10':	0.383838384,
+            'Huskies_D2':	0.449612403,
+            'Huskies_D3':	0.477347341,
+            'Huskies_D4':	0.423363095,
+            'Huskies_D5':	0.378329298,
+            'Huskies_D6':	0.341825902,
+            'Huskies_D7':	0.307460437,
+            'Huskies_D8':	0.321909425,
+            'Huskies_D9' :   0.548076923,
+            'Huskies_F1':	0.161246612,
+            'Huskies_F2':	0.443927649,
+            'Huskies_F3':	0.323699422,
+            'Huskies_F4':	0.15470297,
+            'Huskies_F5':	0.23269514,
+            'Huskies_F6':	0.294583884,
+            'Huskies_G1':	0.292879257,
+            'Huskies_M1':	0.491193738,
+            'Huskies_M10':	0.246575342,
+            'Huskies_M11':	0.430463576,
+            'Huskies_M12':	0.209375,
+            'Huskies_M13':	0.415730337,
+            'Huskies_M2':	0.460606061,
+            'Huskies_M3':	0.509770115,
+            'Huskies_M4':	0.358327325,
+            'Huskies_M5':	0.385321101,
+            'Huskies_M6':	0.324600639,
+            'Huskies_M7':	0.536585366,
+            'Huskies_M8':	0.302428256,
+            'Huskies_M9':	0.262626263,
+            
+            'Huskies_D1_receive':	0.431322859,
+            'Huskies_D10_receive':	0.383838384,
+            'Huskies_D2_receive':	0.449612403,
+            'Huskies_D3_receive':	0.477347341,
+            'Huskies_D4_receive':	0.423363095,
+            'Huskies_D5_receive':	0.378329298,
+            'Huskies_D6_receive':	0.341825902,
+            'Huskies_D7_receive':	0.307460437,
+            'Huskies_D8_receive':	0.321909425,
+            'Huskies_D9_receive' :   0.548076923,
+            'Huskies_F1_receive':	0.161246612,
+            'Huskies_F2_receive':	0.443927649,
+            'Huskies_F3_receive':	0.323699422,
+            'Huskies_F4_receive':	0.15470297,
+            'Huskies_F5_receive':	0.23269514,
+            'Huskies_F6_receive':	0.294583884,
+            'Huskies_G1_receive':	0.292879257,
+            'Huskies_M1_receive':	0.491193738,
+            'Huskies_M10_receive':	0.246575342,
+            'Huskies_M11_receive':	0.430463576,
+            'Huskies_M12_receive':	0.209375,
+            'Huskies_M13_receive':	0.415730337,
+            'Huskies_M2_receive':	0.460606061,
+            'Huskies_M3_receive':	0.509770115,
+            'Huskies_M4_receive':	0.358327325,
+            'Huskies_M5_receive':	0.385321101,
+            'Huskies_M6_receive':	0.324600639,
+            'Huskies_M7_receive':	0.536585366,
+            'Huskies_M8_receive':	0.302428256,
+            'Huskies_M9_receive':	0.262626263,
+            "_receive": 0.6
+        }
+
+
+
+        function getColorByNumber(n) {
+            let color=['#2D5F73', '#538EA6', '#F2D1B3', '#F2B8A2', '#F28C8C']
+            let range=[0.27,0.322,0.38,0.45,0.55]
+            // let max=0.55
+	    	// let halfMax = max / 2  //最大数值的二分之一
+	        // //var 百分之一 = (单色值范围) / halfMax;  单颜色的变化范围只在50%之内
+	        // var one = 255 / halfMax; 
+	        // console.log('one= ' + one)
+	        // var r = 255
+	        // var g = 6*16+9;
+            // var b = 11*16+4;
+            if (n===0.6) return color[3]
+            let flag=false;
+            for (let i=0;i<4;i++){
+                if (n>range[i] && n<range[i+1])
+                {
+                    return color[4-i];
+                }
+            }
+            return -1;
+            // let r_e=8*16+7
+            // let g_e=12*16+7
+            // let b_e=16*16+10
+
+            // let f=n/max
+            // let f_=1-f
+
+            // r=r_e*f_+r*f
+            // g=g_e*f_+g*f
+            // b=b_e+f_+b*f
+
+
+	        // if (n < halfMax) {
+	        //   // 比例小于halfMax的时候红色是越来越多的,直到红色为255时(红+绿)变为黄色.
+	        //   r = one * n;  
+	        //   g = 50;
+	        // }
+
+	        // if (n >= halfMax) {
+	        //   // 比例大于halfMax的时候绿色是越来越少的,直到0 变为纯红
+	        //   g = (255 - ((n - halfMax) * one)) < 0 ? 0 : (255 - ((n - halfMax) * one))
+	        //   r = 255;
+
+	        // }
+	        // r = parseInt(r);// 取整
+	        // g = parseInt(g);// 取整
+	        // b = parseInt(b);// 取整
+	        // console.log(r,g,b)
+            // return "rgb(" + r + "," + g + "," + b + ")";
+	    }
+
+        // 基于准备好的dom，初始化echarts实例
+        let myChart = echarts.init(document.getElementById('main'));
+        let con=[];
+        for (let i=1;i<=38;i++){
+            con.push(i)
+        }
+        let config={'id':con,'begin':[],'end':[]}
+        let tmpString=""
+        config = (function(data) {
+            for (let key in data) {
+            tmpString += key + "=" + data[key] + "&";
+            }
+            return tmpString;
+        })(config);
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("POST","http://127.0.0.1:5000",true);
+        xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            //解决跨域请求问题
+        xmlHttp.send(config)
+        xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+            try {
+                let rawData = JSON.parse(xmlHttp.responseText);
+                let people=new Set();
+                for (let pair of rawData){
+                    people.add(pair[0]);
+                    // people.add(pair[1]+"_receive");
+                }
+                people=[...people];
+                people.sort();
+                ll=[]
+                for (let i =0;i<people.length;i++){
+                    ll.push(people[i]+"_receive");
+                }
+                people=[...people,...ll]
+                people.push("_receive");
+                console.log(people);
+                peopleValue=new Array(people.length).fill(0);
+                peopleLink=[];
+                graphLine=[];
+
+                
+                for (let i=0;i<people.length;i++){
+                    peopleLink.push(new Array(people.length));
+                    peopleLink[i].fill(0);
+                };
+                maxV=0;
+                for (let pair of rawData){
+                    peopleValue[name2num(pair[0])]++;
+                    peopleValue[name2num(pair[1]+"_receive")]++;
+                    peopleLink[name2num(pair[0])][name2num(pair[1]+"_receive")]++;
+                    maxV=Math.max(maxV,peopleLink[name2num(pair[0])][name2num(pair[1]+"_receive")]);
+                };
+                console.log(peopleLink)
+                for (let i=0;i<peopleLink.length;i++){
+                    for (let j=0;j<peopleLink.length;j++)
+                        if (peopleLink[i][j]!==0)
+                        graphLine.push({
+                            "source":(i+16) %61,
+                            "target":(j+16)%61,
+                            "lineStyle":{
+                                "width":peopleLink[i][j]*18/maxV,
+                                // "opacity":0.9*Math.pow(peopleLink[i][j]/maxV,3),
+                                "color": 'source',
+                                "curveness": 0.4
+                            }
+                        })
+                }
+                graphNode=[];
+                maxPeopleValue=Math.max(...peopleValue);
+                console.log(getColorByNumber(0.2),getColorByNumber(0.4));
+                console.log(peopleValue)
+
+                function short(string){
+                    if (string.substr(string.length-1,1)==="e"){
+                        return "111"
+                    }
+                    return string
+                }
+                
+                for (let i=0;i<peopleValue.length;i++){
+                    graphNode.push({
+                        "symbol":(i<28)?'circle':"roundRect",
+                        "itemStyle":{color: getColorByNumber(rate[people[i]])},
+                        "name": (people[i][0]!=='_')?people[i].slice(8):people[i],
+                        "symbolSize":peopleValue[i]/30,
+                        "value":peopleValue[i],
+                        // "label":{"show":peopleValue[i]>maxPeopleValue/10}
+                    })
+                }
+
+                let g_=[...graphNode]
+                for (let i=0;i<61;i++){
+                    g_[i]=graphNode[(i+45) % 61]
+                }
+
+                graphNode=[...g_]
+
+                function aaa(string){
+                    
+
+                }
+
+                function name2num(name){
+                    for (let i=0;i<people.length;i++){
+                        if (people[i]===name){
+                            return i;
+                        }
+                    }
+                    return -1;
+                }
+                let option={
+                    title:{
+                        text: 'soccer',
+                        top:'bottom',
+                        left:'right'
+                    },
+                    animationDurationUpdate:1500,
+                    animationEasingUpdate:'quinticInOut',
+                    grid:{
+                        left: '30%',
+                        right: '30%',
+                        top: '30%',
+                        // bottom: '30%'
+                    },
+                    series:{
+                        // name: 'soccer',
+                        type: 'graph',
+                        layout: 'circular',
+                        circular: {
+                            rotateLabel: true
+                        },
+                        data: graphNode,
+                        links: graphLine,
+                        // categories: categories,
+                        label: {
+                            position: 'right',
+                            formatter: '{b}',
+                            show:true
+                        }
+                    }
+                }
+                myChart.setOption(option);
+                
+        console.log(JSON.stringify(graphNode))
+        console.log(JSON.stringify(graphLine))
+            } catch (error) {
+                console.log(error)
+                }
+            }
+        };
+
+
+
+
+        // 指定图表的配置项和数据
+        // let option = {
+        //     title: {
+        //         text: 'ECharts 入门示例'
+        //     },
+        //     tooltip: {},
+        //     legend: {
+        //         data:['销量']
+        //     },
+        //     xAxis: {
+        //         data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+        //     },
+        //     yAxis: {},
+        //     series: [{
+        //         name: '销量',
+        //         type: 'bar',
+        //         data: [5, 20, 36, 10, 10, 20]
+        //     }]
+        // };
+
+        // 使用刚指定的配置项和数据显示图表。
+        
+    </script>
+</body>
+</html>
